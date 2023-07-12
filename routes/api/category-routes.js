@@ -5,20 +5,47 @@ const { Category, Product } = require('../../models');
 
 router.get('/', async (req, res) => {
   try {
-    return res.json(await Category.findAll())
+    return res.json(await Category.findAll({
+      include: [
+        {
+          model: Product,
+          attributes: ['id', 'product_name']
+        }
+      ]
+    }))
   } catch (error) {
-    
+   console.error(error)
+   res.status(500).json(error) 
   }
-  // be sure to include its associated Products
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
   // find one category by its `id` value
-  // be sure to include its associated Products
+  const category = res.json(await Category.findAll({
+    where: {
+      id: req.params.id
+    },
+    include: [
+      {
+        model: Product,
+        attributes: ['id', 'product_name']
+      }
+    ]
+  }))
 });
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   // create a new category
+  const { category_name } = req.body
+try {
+  res.json(await Category.create({
+     category_name: category_name
+   }))
+  
+} catch (error) {
+  console.error(error)
+  res.status(500).json(error)
+}
 });
 
 router.put('/:id', (req, res) => {

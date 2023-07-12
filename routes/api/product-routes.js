@@ -42,8 +42,6 @@ router.get('/:id', async (req, res) => {
       }
     ]
   }))
-  // find a single product by its `id`
-  // be sure to include its associated Category nd Tag dataa
 });
 
 // create new product
@@ -142,7 +140,7 @@ router.delete('/:id', async (req, res) => {
     }
 
     res.status(200).json(productData);
-    
+
   } catch (error) {
     res.status(500).json(error)
   }
