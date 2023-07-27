@@ -19,9 +19,9 @@ router.get('/', async (req, res) => {
   }
 });
 
+// find one category by its `id` value
 router.get('/:id', async (req, res) => {
-  // find one category by its `id` value
-  const category = res.json(await Category.findAll({
+  const category = res.json(await Category.findOne({
     where: {
       id: req.params.id
     },
@@ -34,8 +34,8 @@ router.get('/:id', async (req, res) => {
   }))
 });
 
+// create a new category
 router.post('/', async (req, res) => {
-  // create a new category
   const { category_name } = req.body
 try {
   res.json(await Category.create({
@@ -48,8 +48,20 @@ try {
 }
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id', async (req, res) => {
   // update a category by its `id` value
+ res.json(await Category.update(
+    {
+      category_name: req.body.category_name
+    },
+    {
+      where: {
+        id: req.params.id
+      }
+    }
+  ))
+
+  
 });
 
 router.delete('/:id', async (req, res) => {

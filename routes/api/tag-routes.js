@@ -20,7 +20,7 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-  const product = res.json(await Product.findAll({
+  const product = res.json(await Tag.findOne({
     where: {
       id: req.params.id,
     },
@@ -47,8 +47,17 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.put('/:id', (req, res) => {
-  // update a tag's name by its `id` value
+router.put('/:id', async (req, res) => {
+  res.json(await Tag .update(
+    {
+      tag_name: req.body.tag_name
+    },
+    {
+      where: {
+        id: req.params.id
+      }
+    }
+  ))
 });
 
 router.delete('/:id', async (req, res) => {
